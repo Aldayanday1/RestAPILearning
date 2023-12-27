@@ -2,6 +2,7 @@ package project.consumeapi.ui.kontak.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -26,3 +27,7 @@ class InsertViewModel(private val kontakRepository: KontakRepository) : ViewMode
         }
     }
 }
+
+data class InsertUiState(
+    val insertUiEvent: InsertUiEvent = InsertUiEvent(),
+)
