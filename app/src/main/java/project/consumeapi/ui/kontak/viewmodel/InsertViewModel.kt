@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import project.consumeapi.model.Kontak
 import project.consumeapi.repository.KontakRepository
 
 class InsertViewModel(private val kontakRepository: KontakRepository) : ViewModel(){
@@ -39,6 +40,12 @@ data class InsertUiEvent(
     val nohp: String = "",
 )
 
+fun InsertUiEvent.toKontak(): Kontak = Kontak(
+    id = id,
+    nama = nama,
+    alamat = email,
+    telpon = nohp
+)
 
 
 
