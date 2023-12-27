@@ -34,16 +34,23 @@ import project.consumeapi.model.Kontak
 import project.consumeapi.ui.home.viewmodel.KontakUIState
 
 @Composable
-fun HomeScreen(
+fun HomeStatus(
     kontakUIState: KontakUIState,
     retryAction: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDeleteClick: (Kontak) -> Unit = {},
+    onDetailClick: (Int) -> Unit
 ){
     when (kontakUIState) {
         is KontakUIState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
         is KontakUIState.Success -> KontakLayout(
-            kontak = kontakUIState.kontak,
-            modifier = modifier.fillMaxWidth()
+            kontak = kontakUIState.kontak, modifier = modifier.fillMaxWidth(),
+            onDetailClick = {
+                onDetailClick(it.id)
+            },
+            onDeleteClick = {
+                onDeleteClick(it)
+            }
         )
 
         is KontakUIState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
@@ -94,9 +101,15 @@ fun KontakLayout(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ){
         items(kontak){ kontak ->
-            KontakCard(kontak = kontak, modifier = Modifier
-                .fillMaxWidth()
-                .clickable { })
+            KontakCard(
+                kontak = kontak,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(kontak) },
+                onDeleteClick = {
+                    onDeleteClick(kontak)
+                }
+            )
         }
     }
 }
